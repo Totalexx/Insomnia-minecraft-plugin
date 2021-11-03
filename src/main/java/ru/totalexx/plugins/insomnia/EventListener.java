@@ -6,18 +6,20 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerBedEnterEvent;
 
+import java.util.List;
+
 public class EventListener implements Listener {
 
-    private String[] sleepMessage = {
-            "%s лёг в кровать и уснул. Спокойной ночи :)",
-            "%s споткнулся об кровать и уснул. Сладких снов...",
-            "%s забрался под одеяло от страшных монстров.",
-            "%s решил поспать. Мудро.",
-            "%s дерётся с подушкой. Кажется, подушка победила...",
-            "%s наелся и спит.",
-            "%s плотно и вкусно покушал и уснул.",
-            "У %s сонный паралич."
-    };
+//    private String[] sleepMessage = {
+//            "%s лёг в кровать и уснул. Спокойной ночи :)",
+//            "%s споткнулся об кровать и уснул. Сладких снов...",
+//            "%s забрался под одеяло от страшных монстров.",
+//            "%s решил поспать. Мудро.",
+//            "%s дерётся с подушкой. Кажется, подушка победила...",
+//            "%s наелся и спит.",
+//            "%s плотно и вкусно покушал и уснул.",
+//            "У %s сонный паралич."
+//    };
 
     @EventHandler
     public void playerSleeping(PlayerBedEnterEvent e) {
@@ -34,8 +36,11 @@ public class EventListener implements Listener {
     }
 
     public void sendSleepMessage(Player sleepingPlayer) {
+        List<String> messages = Config.getList("messages");
+        int numberOfMessage = (int)(Math.random() * messages.size());
+        String message = messages.get(numberOfMessage).replace("{player}", sleepingPlayer.getName());
         for(Player player : Bukkit.getOnlinePlayers()) {
-            player.sendMessage(String.format(sleepMessage[(int)(Math.random() * sleepMessage.length)], sleepingPlayer.getName()));
+            player.sendMessage(message);
         }
     }
 
