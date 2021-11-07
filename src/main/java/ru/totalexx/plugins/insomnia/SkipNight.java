@@ -18,7 +18,7 @@ public class SkipNight implements Listener {
     @EventHandler
     public void playerSleeping(PlayerBedEnterEvent e) {
         if (e.getBedEnterResult().equals(PlayerBedEnterEvent.BedEnterResult.OK)) {
-            if (Config.getInt("sleepers") == 0) {
+            if (Config.getInt("needSleepers") == 0) {
                 sendSleepMessage(e.getPlayer());
                 skipNight(e.getPlayer());
             } else {
@@ -39,17 +39,17 @@ public class SkipNight implements Listener {
 
     @EventHandler
     public void playerWakeUp(PlayerBedLeaveEvent e) {
-        if (Config.getInt("sleepers") == 0) {
+        if (Config.getInt("needSleepers") != 0) {
             String nightWorld = e.getPlayer().getWorld().getName();
             sleepers.put(nightWorld, sleepers.get(nightWorld) - 1);
         }
     }
 
     public boolean needSkipNight(World nightWorld) {
-        float needSleepers = Config.getInt("needSleepers") / 100f;
-        int playerCount = nightWorld.getPlayerCount();
-        int sleepers = this.sleepers.get(nightWorld.getName());
-        return sleepers / playerCount >= needSleepers;
+        int countSleepers = sleepers.get(nightWorld.getName());
+        int countPlayers = nightWorld.getPlayerCount();
+        int needSleepers = (int) Math.ceil((countPlayers * Config.getInt("needSleepers")) / 100d);
+        return countSleepers >= needSleepers;
     }
 
     public void sendSleepMessage(Player sleepingPlayer) {
@@ -58,9 +58,11 @@ public class SkipNight implements Listener {
         String message = messages.get(numberOfMessage).replace("{player}", sleepingPlayer.getName());
 
         if (Config.getInt("needSleepers") != 0) {
-            String countPlayers = "(" + sleepers.get(sleepingPlayer.getWorld().getName()) +
-                    "/" + sleepingPlayer.getWorld().getPlayerCount() + ")";
-            message += countPlayers;
+            int countSleepers = sleepers.get(sleepingPlayer.getWorld().getName());
+            int countPlayers = sleepingPlayer.getWorld().getPlayerCount();
+            int needSleepers = (int) Math.ceil((countPlayers * Config.getInt("needSleepers")) / 100d);
+            String sleepersInfo = " (" + countSleepers + "/" + needSleepers + ")";
+            message += sleepersInfo;
         }
 
         for (Player player : sleepingPlayer.getWorld().getPlayers()) {
@@ -68,27 +70,31 @@ public class SkipNight implements Listener {
         }
     }
 
-    private static void skipNight(Player player) {
+    private void skipNight(Player player) {
         Bukkit.getServer().getScheduler().runTaskLater(Insomnia.getInstance(), new Runnable() {
             public void run() {
                 player.getWorld().setTime(0L);
                 player.getWorld().setStorm(false);
                 player.getWorld().setThundering(false);
-                for(Player player : player.getWorld().getPlayers()) {
-                    player.sendMessage(Config.getString("messageSkipNight"));
+                if (!Config.getString("messageSkipNight").equals("")) {
+                    for (Player player : player.getWorld().getPlayers()) {
+                        player.sendMessage(Config.getString("messageSkipNight"));
+                    }
                 }
             }
         }, 100L);
     }
 
-    private static void skipNight(World world) {
+    private void skipNight(World world) {
         Bukkit.getServer().getScheduler().runTaskLater(Insomnia.getInstance(), new Runnable() {
             public void run() {
                 world.setTime(0L);
                 world.setStorm(false);
                 world.setThundering(false);
-                for(Player player : world.getPlayers()) {
-                    player.sendMessage(Config.getString("messageSkipNight"));
+                if (!Config.getString("messageSkipNight").equals("")) {
+                    for(Player player : world.getPlayers()) {
+                        player.sendMessage(Config.getString("messageSkipNight"));
+                    }
                 }
             }
         }, 100L);

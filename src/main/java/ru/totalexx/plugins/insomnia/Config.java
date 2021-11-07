@@ -7,12 +7,8 @@ public class Config {
         return Insomnia.getInstance().getConfig().getInt(name);
     }
 
-    public static String getString(String name, Object... args) {
-        return String.format(Insomnia.getInstance().getConfig().getString(name).replace('&', '\u00a7'), args);
-    }
-
-    public static boolean getBoolean(String name) {
-        return Insomnia.getInstance().getConfig().getBoolean(name);
+    public static String getString(String name) {
+        return Insomnia.getInstance().getConfig().getString(name);
     }
 
     public static List getList(String name) {

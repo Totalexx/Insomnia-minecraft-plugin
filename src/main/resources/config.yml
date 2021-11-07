@@ -1,20 +1,17 @@
 # Percentage of sleeping players needed to skip the night.
 # Set 0 so that one player can skip the night.
-needSleepers: 0
+needSleepers: 50
 
-# The message that will be sent when skipping the night
-messageSkipNight: "Good morning!"
+# The message that will be sent when skipping the night.
+# If not necessary, then leave it empty.
+messageSkipNight: ""
 
 # The messages that will be sent to everyone when the {player} has gone to bed.
+# You can use Minecraft color codes.
 messages:
-  - "{player} лёг в кровать и уснул. Спокойной ночи :)"
-  - "{player} споткнулся об кровать и уснул. Сладких снов..."
-  - "{player} забрался под одеяло от страшных монстров."
-  - "{player} решил поспать. Мудро."
-  - "{player} дерётся с подушкой. Кажется, подушка победила..."
-  - "{player} наелся и спит."
-  - "{player} плотно и вкусно покушал и уснул."
-  - "У {player} сонный паралич."
+  - "§6{player} went to sleep."
+  - "§6{player} is sleep. Mismatch."
+  - "§6{player} is sleeping. Good night :)"
 
 # Plugin version. Don't change it.
 version: @version@
