@@ -14,7 +14,7 @@ public final class Insomnia extends JavaPlugin {
         instance = this;
         log = getLogger();
         saveDefaultConfig();
-        Bukkit.getPluginManager().registerEvents(new EventListener(), this);
+        Bukkit.getPluginManager().registerEvents(new SkipNight(), this);
         logPluginInfo();
     }
 

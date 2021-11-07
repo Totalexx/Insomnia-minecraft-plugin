@@ -1,3 +1,11 @@
+# Percentage of sleeping players needed to skip the night.
+# Set 0 so that one player can skip the night.
+needSleepers: 0
+
+# The message that will be sent when skipping the night
+messageSkipNight: "Good morning!"
+
+# The messages that will be sent to everyone when the {player} has gone to bed.
 messages:
   - "{player} лёг в кровать и уснул. Спокойной ночи :)"
   - "{player} споткнулся об кровать и уснул. Сладких снов..."
@@ -8,5 +16,5 @@ messages:
   - "{player} плотно и вкусно покушал и уснул."
   - "У {player} сонный паралич."
 
-# Don't change it
+# Plugin version. Don't change it.
 version: @version@
