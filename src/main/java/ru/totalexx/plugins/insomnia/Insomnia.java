@@ -3,6 +3,10 @@ package ru.totalexx.plugins.insomnia;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.Callable;
+
 public final class Insomnia extends JavaPlugin {
 
     private static Insomnia instance;
@@ -12,6 +16,8 @@ public final class Insomnia extends JavaPlugin {
         saveDefaultConfig();
         Bukkit.getPluginManager().registerEvents(new SkipNight(), this);
         logPluginInfo();
+
+        Metrics metrics = new Metrics(this, 13271);
     }
 
     public static Insomnia getInstance() {
